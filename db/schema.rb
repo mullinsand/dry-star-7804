@@ -10,16 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_19_202642) do
+ActiveRecord::Schema.define(version: 2022_09_26_151116) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "amusement_parks", force: :cascade do |t|
-    t.string "name"
-    t.integer "admission_cost"
+  create_table "doctor_patients", force: :cascade do |t|
+    t.bigint "doctor_id"
+    t.bigint "patient_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["doctor_id"], name: "index_doctor_patients_on_doctor_id"
+    t.index ["patient_id"], name: "index_doctor_patients_on_patient_id"
   end
 
   create_table "doctors", force: :cascade do |t|
@@ -30,34 +32,55 @@ ActiveRecord::Schema.define(version: 2022_09_19_202642) do
     t.index ["hospital_id"], name: "index_doctors_on_hospital_id"
   end
 
+  create_table "gardens", force: :cascade do |t|
+    t.string "name"
+    t.boolean "organic"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "hospitals", force: :cascade do |t|
     t.string "name"
   end
 
-  create_table "maintenances", force: :cascade do |t|
-    t.bigint "ride_id"
-    t.bigint "mechanic_id"
-    t.index ["mechanic_id"], name: "index_maintenances_on_mechanic_id"
-    t.index ["ride_id"], name: "index_maintenances_on_ride_id"
-  end
-
-  create_table "mechanics", force: :cascade do |t|
+  create_table "patients", force: :cascade do |t|
     t.string "name"
-    t.integer "years_experience"
-  end
-
-  create_table "rides", force: :cascade do |t|
-    t.bigint "amusement_park_id"
-    t.string "name"
-    t.integer "thrill_rating"
-    t.boolean "open"
+    t.integer "age"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["amusement_park_id"], name: "index_rides_on_amusement_park_id"
   end
 
+  create_table "plants", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.integer "days_to_harvest"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "plot_plants", force: :cascade do |t|
+    t.bigint "plot_id"
+    t.bigint "plant_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["plant_id"], name: "index_plot_plants_on_plant_id"
+    t.index ["plot_id"], name: "index_plot_plants_on_plot_id"
+  end
+
+  create_table "plots", force: :cascade do |t|
+    t.integer "number"
+    t.string "size"
+    t.string "direction"
+    t.bigint "garden_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["garden_id"], name: "index_plots_on_garden_id"
+  end
+
+  add_foreign_key "doctor_patients", "doctors"
+  add_foreign_key "doctor_patients", "patients"
   add_foreign_key "doctors", "hospitals"
-  add_foreign_key "maintenances", "mechanics"
-  add_foreign_key "maintenances", "rides"
-  add_foreign_key "rides", "amusement_parks"
+  add_foreign_key "plot_plants", "plants"
+  add_foreign_key "plot_plants", "plots"
+  add_foreign_key "plots", "gardens"
 end
