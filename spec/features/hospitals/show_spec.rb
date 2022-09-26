@@ -61,7 +61,8 @@ RSpec.describe "Hospital Show Page" do
     
     describe 'it has a list of all doctors associtated with this hospital' do
       it 'list of doctors contains all doctors part of hospital with their patient count' do
-        hos_1_docs = [[@doctor_1, 4], [@doctor_3, 3], [@doctor_2, 1]]
+        hos_1_docs = [[@doctor_1, 4], [@doctor_3, 3], [@doctor_2, 1]] 
+        #second element in each array is the number of patients for that doctor
         within "#hospital_doctors" do
           hos_1_docs.each do |doctor|
             within "#doctor_#{doctor[0].id}" do
