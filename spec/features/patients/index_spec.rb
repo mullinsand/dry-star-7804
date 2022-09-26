@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 
-RSpec.describe "Doctor Show Page" do
-  describe 'as a visistor visiting the doctors show page' do
+RSpec.describe "Patient Index Page" do
+  describe 'as a visitor visiting the patient index page' do
     before :each do
       Faker::UniqueGenerator.clear
 
@@ -39,6 +39,17 @@ RSpec.describe "Doctor Show Page" do
           end
         end
 
+      end
+
+      context 'does not list patients under 19' do
+        it 'does not have the names of patients under 19' do
+          young_patients = [@patient_1, @patient_2, @patient_3]
+          within "#adult_patients" do
+            young_patients.each do |patient|
+              expect(page).to_not have_content(patient.name)
+            end
+          end
+        end
       end
 
       it 'lists the names in alphabetical order' do
