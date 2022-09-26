@@ -1,0 +1,14 @@
+<p id ="hospital_attributes">
+  Name: <%=@hospital.name%>
+</p>
+
+
+<h4>Doctors</h4>
+<ul id ="hospital_doctors">
+  <% @hospital.doctors_by_patient_count.each do |doctor|%>
+    <li id="doctor_<%=doctor.id%>">
+      <%= doctor.name%>
+      <%= doctor.patient_count%>
+    </li>
+  <% end%>
+</ul>

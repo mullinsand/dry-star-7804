@@ -4,7 +4,7 @@ RSpec.describe Patient, type: :model do
   it {should have_many :doctor_patients}
   it {should have_many(:doctors).through(:doctor_patients)}
 
-  describe 'instance methods' do
+  describe 'class methods' do
 
     describe '#adult_patients_alpha' do
       before :each do
